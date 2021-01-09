@@ -1,0 +1,30 @@
+.timer-container {
+  background-color: powderblue;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.timer-container button {
+  width: 7rem;
+  height: 2rem;
+  color: rgb(50, 50, 50);
+  background-color: rgb(230, 230, 230);
+}
+.timer-setter-wrapper {
+  width: 100%;
+  height: 80%;
+}
+.tiemr-button-wrapper {
+  width: 100%;
+  height: 20%;
+}
+.timer-setter-wrapper input {
+  width: 50px;
+  min-height: 50px;
+}
+.tiemr-setter-wrapper .minutes-input {
+  background-color: rosybrown;
+}
