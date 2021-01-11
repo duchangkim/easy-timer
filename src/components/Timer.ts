@@ -1,87 +1,75 @@
-import TimerCalculation from './TimerCalculation';
+import Countdown from './Countdown';
 
 export default class Timer {
-  constructor(element: HTMLElement | Element) {
-    const timerContainer = document.createElement('div');
-    const timerSetterWrapper = document.createElement('div');
-    const minutesSetInput = document.createElement('input');
-    const minutesSpan = document.createElement('span');
-    const secondsSetInput = document.createElement('input');
-    const secondsSpan = document.createElement('span');
-    const buttonWrapper = document.createElement('div');
-    const cancelButton = document.createElement('button');
-    const startAndPauseButton = document.createElement('button');
+  container: HTMLDivElement;
+  inputWrapper: HTMLDivElement;
+  secondInput: HTMLInputElement;
+  startPauseButton: HTMLButtonElement;
+  cancelButton: HTMLButtonElement;
+  countdown: Countdown | undefined;
 
-    /* Container, Wrapper */
-    timerContainer.className = 'timer-container'
-    timerSetterWrapper.className = 'timer-setter-wrapper';
-    buttonWrapper.className = 'timer-button-wrapper';
+  constructor (root: HTMLElement | Element) {
+    this.container = document.createElement('div');
+    this.inputWrapper = document.createElement('div');
+    this.secondInput = document.createElement('input');
+    this.secondInput.placeholder = '1 ~ 60 seconds';
+    this.secondInput.oninput = (e) => this.maxLengthCheck(e, 2);
+    this.startPauseButton = document.createElement('button');
+    this.startPauseButton.innerHTML = 'Start';
+    this.startPauseButton.disabled = true;
+    this.cancelButton = document.createElement('button');
+    this.cancelButton.innerHTML = 'Cancel';
+    this.cancelButton.disabled = true;
 
-    /* timer input */
-    minutesSetInput.className = 'minutes-input';
-    minutesSetInput.type = 'number';
-    minutesSetInput.min = '0';
-    minutesSetInput.value = '0';
-    minutesSetInput.maxLength = 2;
-    minutesSetInput.oninput = (e) => this.maxLengthCheck(e);
-    minutesSetInput.addEventListener('change', (e:Event) => {
-      if ((<HTMLInputElement>e.target).value === '0' && secondsSetInput.value === '0') {
-        startAndPauseButton.disabled = true;
-        return;
+    this.secondInput.addEventListener('input', () => {
+      if (this.secondInput.value.length > 0 && Number(this.secondInput.value) > 0) {
+        this.startPauseButton.disabled = false;
+        
+      } else {
+        this.startPauseButton.disabled = true;
       }
-      startAndPauseButton.disabled = false;
     });
-    minutesSpan.innerText = 'Min';
 
-    secondsSetInput.className = 'seconds-input';
-    secondsSetInput.type = 'number';
-    secondsSetInput.min = '0';
-    secondsSetInput.value = '0';
-    secondsSetInput.maxLength = 2;
-    secondsSetInput.oninput = (e) => this.maxLengthCheck(e);
-    secondsSetInput.addEventListener('change', (e:Event) => {
-      if ((<HTMLInputElement>e.target).value === '0' && minutesSetInput.value === '0') {
-        startAndPauseButton.disabled = true;
-        return;
+    this.startPauseButton.addEventListener('click', (e:Event) => {
+      if (this.startPauseButton.innerHTML.trim() === 'Start') {
+        this.countdown = new Countdown(root, Number(this.secondInput.value));
+        this.secondInput.value = '';
+        this.startPauseButton.innerHTML = 'Pause';
+        this.cancelButton.disabled = false;
+      } else if (this.startPauseButton.innerHTML.trim() === 'Pause') {
+        this.countdown?.pause();
+        this.startPauseButton.innerHTML = 'Restart';
+      } else {
+        this.startPauseButton.innerHTML = 'Pause';
       }
-      startAndPauseButton.disabled = false;
     });
-    secondsSpan.innerText = 'Sec';
 
-    /* buttons */
-    cancelButton.className = 'cancel-button';
-    cancelButton.innerText = 'Cancel';
-    cancelButton.disabled = true;
+    this.cancelButton.addEventListener('click',  () => {
+      if (this.countdown) {
+        this.countdown.cancel();
+        this.cancelButton.disabled = true;
+        this.startPauseButton.innerHTML = 'Start';
+        this.startPauseButton.disabled = true;
+      }
+    });
 
-    startAndPauseButton.className = 'start-button';
-    startAndPauseButton.innerText = 'Start';
-    startAndPauseButton.disabled = true;
-
-    startAndPauseButton.onclick = () => TimerCalculation.start();
-
-    /* append */
-    timerSetterWrapper.append(
-      minutesSetInput,
-      minutesSpan,
-      secondsSetInput,
-      secondsSpan,
+    this.inputWrapper.append(
+      this.secondInput,
+      this.cancelButton,
+      this.startPauseButton,
     );
-    buttonWrapper.append(
-      cancelButton,
-      startAndPauseButton,
-    )
-    timerContainer.append(
-      timerSetterWrapper,
-      buttonWrapper,
-    );
-    element.append(timerContainer);
+    root.append(this.container, this.inputWrapper);
   }
 
-  private maxLengthCheck (event:Event):void {
+  private maxLengthCheck (event:Event, maxLength: number):void {
     const target = (<HTMLInputElement>event.target);
-    if (target.value.length > target.maxLength) {
-      target.value = target.value.slice(0, target.maxLength);
+    if (target.value.length > maxLength) {
+      target.value = target.value.slice(0, maxLength);
     }
     return;
+  }
+
+  sayHello() {
+    console.log('Hello~')
   }
 }
