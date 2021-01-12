@@ -24,7 +24,6 @@ export default class Timer {
     this.secondInput.addEventListener('input', () => {
       if (this.secondInput.value.length > 0 && Number(this.secondInput.value) > 0) {
         this.startPauseButton.disabled = false;
-        
       } else {
         this.startPauseButton.disabled = true;
       }
@@ -40,6 +39,7 @@ export default class Timer {
         this.countdown?.pause();
         this.startPauseButton.innerHTML = 'Restart';
       } else {
+        this.countdown?.restart();
         this.startPauseButton.innerHTML = 'Pause';
       }
     });
@@ -67,9 +67,5 @@ export default class Timer {
       target.value = target.value.slice(0, maxLength);
     }
     return;
-  }
-
-  sayHello() {
-    console.log('Hello~')
   }
 }
