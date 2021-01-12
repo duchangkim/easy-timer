@@ -4,6 +4,7 @@ export default class Timer {
   container: HTMLDivElement;
   inputWrapper: HTMLDivElement;
   secondInput: HTMLInputElement;
+  minuteInput: HTMLInputElement;
   startPauseButton: HTMLButtonElement;
   cancelButton: HTMLButtonElement;
   countdown: Countdown | undefined;
@@ -11,9 +12,12 @@ export default class Timer {
   constructor (root: HTMLElement | Element) {
     this.container = document.createElement('div');
     this.inputWrapper = document.createElement('div');
+    this.minuteInput = document.createElement('input');
+    this.minuteInput.type = 'number';
+    this.minuteInput.placeholder = '1 ~ 59 minutes';
     this.secondInput = document.createElement('input');
-    this.secondInput.placeholder = '1 ~ 60 seconds';
-    this.secondInput.oninput = (e) => this.maxLengthCheck(e, 2);
+    this.secondInput.type = 'number';
+    this.secondInput.placeholder = '1 ~ 59 seconds';
     this.startPauseButton = document.createElement('button');
     this.startPauseButton.innerHTML = 'Start';
     this.startPauseButton.disabled = true;
@@ -21,17 +25,17 @@ export default class Timer {
     this.cancelButton.innerHTML = 'Cancel';
     this.cancelButton.disabled = true;
 
-    this.secondInput.addEventListener('input', () => {
-      if (this.secondInput.value.length > 0 && Number(this.secondInput.value) > 0) {
-        this.startPauseButton.disabled = false;
-      } else {
-        this.startPauseButton.disabled = true;
-      }
-    });
+    /* input event */
+    this.minuteInput.addEventListener('input', (e) => this.maxLengthCheck(e, 2));
+    this.minuteInput.addEventListener('input', () => this.validateInput(true));
+    this.secondInput.addEventListener('input', (e) => this.maxLengthCheck(e, 2));
+    this.secondInput.addEventListener('input', () => this.validateInput(false));
 
-    this.startPauseButton.addEventListener('click', (e:Event) => {
+    /* button event */
+    this.startPauseButton.addEventListener('click', () => {
       if (this.startPauseButton.innerHTML.trim() === 'Start') {
-        this.countdown = new Countdown(root, Number(this.secondInput.value));
+        this.countdown = new Countdown(root, (Number(this.minuteInput.value) * 60) + Number(this.secondInput.value));
+        this.minuteInput.value = '';
         this.secondInput.value = '';
         this.startPauseButton.innerHTML = 'Pause';
         this.cancelButton.disabled = false;
@@ -43,7 +47,6 @@ export default class Timer {
         this.startPauseButton.innerHTML = 'Pause';
       }
     });
-
     this.cancelButton.addEventListener('click',  () => {
       if (this.countdown) {
         this.countdown.cancel();
@@ -53,7 +56,9 @@ export default class Timer {
       }
     });
 
+    /* append */
     this.inputWrapper.append(
+      this.minuteInput,
       this.secondInput,
       this.cancelButton,
       this.startPauseButton,
@@ -61,11 +66,25 @@ export default class Timer {
     root.append(this.container, this.inputWrapper);
   }
 
-  private maxLengthCheck (event:Event, maxLength: number):void {
+  maxLengthCheck (event:Event, maxLength: number):void {
     const target = (<HTMLInputElement>event.target);
     if (target.value.length > maxLength) {
       target.value = target.value.slice(0, maxLength);
     }
     return;
+  }
+
+  validateInput(min: boolean):void {
+    if (
+      min? this.minuteInput.value : this.secondInput.value && 
+      min? Number(this.minuteInput.value) > 0 : Number(this.secondInput.value) > 0
+    ) {
+      this.startPauseButton.disabled = false;
+    } else {
+      this.startPauseButton.disabled = true;
+    }
+    if (Number(this.minuteInput.value) > 59 || Number(this.secondInput.value) > 59) {
+      this.startPauseButton.disabled = true;
+    }
   }
 }
