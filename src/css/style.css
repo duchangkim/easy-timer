@@ -1,30 +1,115 @@
-.timer-container {
-  background-color: powderblue;
-
+/* timer common */
+.hidden--et {
+  display: none !important;
+}
+.timer-container--et {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
   width: 100%;
   height: 100%;
 }
-.timer-container button {
-  width: 7rem;
-  height: 2rem;
-  color: rgb(50, 50, 50);
-  background-color: rgb(230, 230, 230);
-}
-.timer-setter-wrapper {
+.timer-container--et div {
   width: 100%;
-  height: 80%;
 }
-.tiemr-button-wrapper {
-  width: 100%;
-  height: 20%;
+
+/* input */
+.timer-container--et .input-wrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 60%;
+  font-size: 2rem;
 }
-.timer-setter-wrapper input {
-  width: 50px;
-  min-height: 50px;
+.timer-container--et .input-wrapper input {
+  width: 35%;
+  height: 40px;
+  border: 1px solid rgb(110, 110, 110);
+  border-radius: 3px;
+  font-size: 1rem;
+  text-align: center;
 }
-.tiemr-setter-wrapper .minutes-input {
-  background-color: rosybrown;
+
+/* countdown */
+.timer-container--et .countdown-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60%;
+  font-size: 4.5rem;
+}
+.timer-container--et .countdown-wrapper div {
+  width: fit-content;
+}
+.timer-container--et .countdown-wrapper span {
+  width: 6%;
+  text-align: center;
+}
+
+/* button */
+.timer-container--et .button-wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+.timer-container--et .button-wrapper button {
+  box-sizing: border-box;
+  width: 25%;
+  height: 40px;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  font-size: 1rem;
+}
+.timer-container--et .button-wrapper button:disabled {
+  cursor: not-allowed;
+}
+.timer-container--et .button-wrapper .start {
+  background-color: rgb(50, 141, 238);
+  color: rgb(255, 255, 255);
+}
+.timer-container--et .button-wrapper .start:disabled,
+.timer-container--et .button-wrapper .start:disabled:hover {
+  background-color: rgb(64, 107, 153);
+  color: rgb(165, 165, 165);
+}
+.timer-container--et .button-wrapper .start:hover {
+  background-color: rgb(116, 183, 255);
+}
+.timer-container--et .button-wrapper .start:active {
+  background-color: rgb(43, 105, 170);
+}
+.timer-container--et .button-wrapper .pause {
+  background-color: rgb(255, 200, 35);
+  color: rgb(255, 255, 255);
+}
+.timer-container--et .button-wrapper .pause:hover {
+  background-color: rgb(255, 218, 108);
+}
+.timer-container--et .button-wrapper .pause:active {
+  background-color: rgb(190, 148, 22);
+}
+.timer-container--et .button-wrapper .restart {
+  background-color: rgb(40, 167, 69);
+  color: rgb(255, 255, 255);
+}
+.timer-container--et .button-wrapper .restart:hover {
+  background-color: rgb(53, 201, 87);
+}
+.timer-container--et .button-wrapper .restart:active {
+  background-color: rgb(24, 105, 43);
+}
+.timer-container--et .button-wrapper .cancel {
+  background-color: rgb(214, 79, 92);
+  color: rgb(255, 255, 255);
+}
+.timer-container--et .button-wrapper .cancel:disabled,
+.timer-container--et .button-wrapper .cancel:disabled:hover {
+  background-color: rgb(138, 52, 60);
+  color: rgb(151, 131, 131);
+}
+.timer-container--et .button-wrapper .cancel:hover {
+  background-color: rgb(247, 121, 134);
+}
+.timer-container--et .button-wrapper .cancel:active {
+  background-color: rgb(141, 50, 59);
 }
