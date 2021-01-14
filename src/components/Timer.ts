@@ -35,8 +35,7 @@ export default class Timer {
     this.startPauseButton.addEventListener('click', () => {
       if (this.startPauseButton.innerHTML.trim() === 'Start') {
         this.countdown = new Countdown(root, (Number(this.minuteInput.value) * 60) + Number(this.secondInput.value));
-        this.minuteInput.value = '';
-        this.secondInput.value = '';
+        this.clearInputs();
         this.startPauseButton.innerHTML = 'Pause';
         this.cancelButton.disabled = false;
       } else if (this.startPauseButton.innerHTML.trim() === 'Pause') {
@@ -49,6 +48,7 @@ export default class Timer {
     });
     this.cancelButton.addEventListener('click',  () => {
       if (this.countdown) {
+        this.clearInputs();
         this.countdown.cancel();
         this.cancelButton.disabled = true;
         this.startPauseButton.innerHTML = 'Start';
@@ -86,5 +86,10 @@ export default class Timer {
     if (Number(this.minuteInput.value) > 59 || Number(this.secondInput.value) > 59) {
       this.startPauseButton.disabled = true;
     }
+  }
+
+  clearInputs():void {
+    this.minuteInput.value = '';
+    this.secondInput.value = '';
   }
 }
