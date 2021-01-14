@@ -2,9 +2,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
+const isProd = process.env.NODE_ENV === 'production';
+
 module.exports = {
-  mode: 'development',
-  entry: './src/index.ts',
+  mode: isProd ? 'production' : 'development',
+  entry: isProd ? './src/webpack.ts' : './src/index.ts',
   module: {
     rules: [
       {
@@ -26,7 +28,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'timer.min.css',
+      filename: 'easy-timer.min.css',
     }),
     new HtmlWebpackPlugin({
       inject: 'body',
@@ -34,7 +36,7 @@ module.exports = {
     }),
   ],
   output: {
-    filename: 'timer.min.js',
+    filename: 'easy-timer.min.js',
     libraryTarget: 'umd',
     path: path.resolve(__dirname, './dist'),
   },
