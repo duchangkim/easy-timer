@@ -6,7 +6,7 @@ const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
   mode: isProd ? 'production' : 'development',
-  entry: isProd ? './src/webpack.ts' : './src/index.ts',
+  entry: isProd ? './src/webpack.ts' : './src/dev.ts',
   module: {
     rules: [
       {
@@ -28,7 +28,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'easy-timer.min.css',
+      filename: 'super-easy-timer.min.css',
     }),
     new HtmlWebpackPlugin({
       inject: 'body',
@@ -36,7 +36,7 @@ module.exports = {
     }),
   ],
   output: {
-    filename: 'easy-timer.min.js',
+    filename: 'super-easy-timer.min.js',
     libraryTarget: 'umd',
     path: path.resolve(__dirname, './dist'),
   },
