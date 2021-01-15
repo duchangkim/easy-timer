@@ -23,6 +23,8 @@
 }
 .timer-container--et .input-wrapper input {
   width: 35%;
+  min-width: 100px;
+  max-width: 200px;
   height: 40px;
   border: 1px solid rgb(110, 110, 110);
   border-radius: 3px;
@@ -50,10 +52,13 @@
 .timer-container--et .button-wrapper {
   display: flex;
   justify-content: space-around;
+  margin-top: 3%;
 }
 .timer-container--et .button-wrapper button {
   box-sizing: border-box;
   width: 25%;
+  min-width: 80px;
+  max-width: 120px;
   height: 40px;
   border: none;
   border-radius: 4px;
