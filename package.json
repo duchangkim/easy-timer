@@ -1,6 +1,6 @@
 {
   "name": "super-easy-timer",
-  "version": "1.0.1",
+  "version": "1.0.5",
   "description": "This timer can count down to 60 minutes.",
   "main": "build/index.js",
   "scripts": {
